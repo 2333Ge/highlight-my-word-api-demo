@@ -11,6 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 	loadConfig();
 	displayStatusBar();
 	context.subscriptions.push(
+		// 测试代码更新config
 		vscode.commands.registerCommand('highlight-my-word-api-demo.helloWorld', () => {
 			vscode.window.showInformationMessage('Hello World from highlight-my-word-api-demo!');
 			updateConfig();
@@ -19,7 +20,15 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.workspace.onDidChangeConfiguration((e) => {
 			console.log(e);
 		}),
-
+		vscode.window.onDidChangeVisibleTextEditors(editors => { console.log(editors.length); }),
+		vscode.languages.registerHoverProvider(['javascript', 'typescript'], {
+			provideHover: (document: vscode.TextDocument, position: vscode.Position, _: vscode.CancellationToken): vscode.ProviderResult<vscode.Hover> => {
+				const word = document.getText(document.getWordRangeAtPosition(position));
+				if (word === 'primary') {
+					return new vscode.Hover('悬浮窗');
+				}
+			},
+		})
 	);
 }
 

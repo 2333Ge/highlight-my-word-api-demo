@@ -23,6 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.onDidChangeVisibleTextEditors(editors => { console.log(editors.length); }),
 		vscode.languages.registerHoverProvider(['javascript', 'typescript'], {
 			provideHover: (document: vscode.TextDocument, position: vscode.Position, _: vscode.CancellationToken): vscode.ProviderResult<vscode.Hover> => {
+				// 得到鼠标悬浮处的单词
 				const word = document.getText(document.getWordRangeAtPosition(position));
 				if (word === 'primary') {
 					return new vscode.Hover('悬浮窗');
